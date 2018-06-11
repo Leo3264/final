@@ -197,7 +197,7 @@ def user_ask(indus_list, model):
                     print("This industry may be trend")
                     break
                     
-        if count >= 5 and range_rate > 1.05 and t_m_rate > 1.15:
+        if count >= 5 and range_rate > 1.05 and t_m_rate > 1.1:
             print("Can buy")
         elif range_rate > 1.05:
             print("Can consider")
@@ -207,7 +207,7 @@ def user_ask(indus_list, model):
 def main():
     global_start_time = time.time()
     print("Today : ",datetime.date.today())
-    url = "https://tw.stock.yahoo.com/d/i/rank.php?t=up&e=tse"#&n=100"
+    url = "https://tw.stock.yahoo.com/d/i/rank.php?t=up&e=tse#&n=100"
     res = requests.get(url)
     soup = BeautifulSoup(res.text,"html.parser")
     stock_name = soup.find_all('td','name')
@@ -222,11 +222,10 @@ def main():
         X_train, y_train, X_test, y_test, result_mean, pred_test, two_mouth_ago = prepare_data(index.text[0:4], seq_len=20, ratio=0.9)
         model, y_test, predicted = run_network(model,X_train, y_train, X_test, y_test, result_mean)
         count, range_rate, t_m_rate = pred_next(model,pred_test,two_mouth_ago)
-        if count >= 5 and range_rate > 1.05 and t_m_rate > 1.15:
+        if count >= 5 and range_rate > 1.05 and t_m_rate > 1.1:
             print("can buy")
             final.append(index)
         print('.........')
-        break
     indus_list = find_industry(final)
     print('Total duration (s) : ', time.time() - global_start_time)
     user_ask(indus_list, model)
