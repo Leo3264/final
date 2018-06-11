@@ -132,6 +132,7 @@ def pred_next(model,pred_test,two_mouth_ago):
 
 def find_industry(final):
     indus_list = []
+    print("Recommend and trend")
     for index in range(len(final)):
         #公司名稱
         print(final[index].text[5:])
